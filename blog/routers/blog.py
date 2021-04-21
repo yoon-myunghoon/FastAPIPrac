@@ -1,11 +1,10 @@
 from typing import List
-from fastapi import APIRouter, Depends, status, HTTPException
+
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
-from .. import schemas, database, models, oauth2
+from .. import schemas, database, oauth2
 from ..repository import blog
-
-
 
 router = APIRouter(
     prefix='/blog',
@@ -20,7 +19,8 @@ def get_all(db: Session = Depends(get_db), current_user: schemas.User = Depends(
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-def create(request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
+def create(request: schemas.Blog, db: Session = Depends(get_db),
+           current_user: schemas.User = Depends(oauth2.get_current_user)):
     return blog.create(request, db)
 
 
@@ -30,7 +30,8 @@ def destroy(id: int, db: Session = Depends(get_db), current_user: schemas.User =
 
 
 @router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
-def update(id: int, request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
+def update(id: int, request: schemas.Blog, db: Session = Depends(get_db),
+           current_user: schemas.User = Depends(oauth2.get_current_user)):
     return blog.update(id, request, db)
 
 

@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Optional
+
 from jose import JWTError, jwt
 
 from blog import schemas
@@ -26,4 +26,3 @@ def verify_token(token: str, credentials_exception):
         token_data = schemas.TokenData(email=email)
     except JWTError:
         raise credentials_exception
-
